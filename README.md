@@ -5,23 +5,46 @@
 - Entry point: main.py
 - Press 't' to change theme (green, brown, blue, gray)
 - Press 'r' to restart the game
+ - Entry point: main.py
+ - Press 't' to change theme (green, brown, blue, gray)
+ - Press 'r' to restart the game
 
-# Game Snapshots
+## Tech stack
 
-## Snapshot 1 - Start (green)
-![snapshot1](snapshots/snapshot1.png)
+- Language: Python 3.13
+- Game library: Pygame
+- Project layout: simple single-player local game with assets (images and sounds) in the `assets/` folder
 
-## Snapshot 2 - Start (brown)
-![snapshot2](snapshots/snapshot2.png)
+## How to load & play
 
-## Snapshot 3 - Start (blue)
-![snapshot3](snapshots/snapshot3.png)
+1. Install Python 3.11+ (this project was developed & tested on Python 3.13). Ensure `python` or the full executable path is available.
 
-## Snapshot 4 - Start (gray)
-![snapshot4](snapshots/snapshot4.png)
+2. Install dependencies (recommended inside a virtual environment):
 
-## Snapshot 5 - Valid Moves
-![snapshot5](snapshots/snapshot5.png)
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+```
 
-## Snapshot 6 - Castling
-![snapshot6](snapshots/snapshot6.png)
+If you don't use a virtual environment, you can simply run:
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
+3. Run the game from the project root:
+
+```powershell
+python src\main.py
+```
+
+4. Controls while playing:
+- Click and drag pieces to move them.
+- Press `t` to cycle the board theme (green, brown, blue, gray).
+- Press `r` to restart the current game.
+
+Notes:
+- The `assets/images/` folder contains piece images used by the UI and `assets/sounds/` contains move/capture sounds.
+- If the game fails to start with an import error for `pygame`, install it with `python -m pip install pygame` (or re-run step 2).
+
