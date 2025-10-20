@@ -117,6 +117,7 @@ board = Chessboard('board', config);
 let aiMode = false;
 
 document.getElementById('pvpBtn').addEventListener('click', () => {
+    console.log('PvP button clicked');
     aiMode = false;
     game.reset();
     board.start();
@@ -124,6 +125,7 @@ document.getElementById('pvpBtn').addEventListener('click', () => {
 });
 
 document.getElementById('aiBtn').addEventListener('click', () => {
+    console.log('AI button clicked');
     aiMode = true;
     game.reset();
     board.start();
@@ -131,6 +133,7 @@ document.getElementById('aiBtn').addEventListener('click', () => {
 });
 
 document.getElementById('resetBtn').addEventListener('click', () => {
+    console.log('Reset button clicked');
     game.reset();
     board.start();
     document.getElementById('status').textContent = 'Game reset';
