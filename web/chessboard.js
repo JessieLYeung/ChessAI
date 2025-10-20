@@ -107,6 +107,7 @@ function evaluatePosition(game) {
 const config = {
     draggable: true,
     position: 'start',
+    pieceTheme: 'images/{piece}.png',
     onDragStart: onDragStart,
     onDrop: onDrop
 };
