@@ -107,12 +107,14 @@ function evaluatePosition(game) {
 const config = {
     draggable: true,
     position: 'start',
-    pieceTheme: 'images/{piece}.png',
+    pieceTheme: function(piece) { return 'images/' + piece + '.png'; },
     onDragStart: onDragStart,
     onDrop: onDrop
 };
 
 board = Chessboard('board', config);
+
+console.log('Board initialized:', board);
 
 let aiMode = false;
 
