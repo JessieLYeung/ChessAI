@@ -1,56 +1,49 @@
-# Game Instructions
+# ChessBot
 
-* Working on AI gamemode...*
+A simple chess game built with Python and Pygame, featuring AI opponent using Minimax algorithm.
 
-- Entry point: main.py
-- Press 't' to change theme (green, brown, blue, gray)
-- Press 'r' to restart the game
-- Press 'a' to toggle AI mode (AI plays as black)
+## Features
 
-## How to start
+- **Game Modes**: Player vs Player or Player vs AI
+- **AI Opponent**: Uses Minimax with alpha-beta pruning (plays as black)
+- **Themes**: Multiple board themes (green, brown, blue, gray)
+- **Sounds**: Move and capture sound effects
+- **Start Menu**: Choose game mode with clickable buttons
 
-1. Run `python src/main.py`
-2. Choose mode:
-   - Click "PvP" button for Player vs Player
-   - Click "AI Mode" button for Player vs AI (you play white, AI plays black)
-   - Or press P for PvP, A for AI
+## How to Run
 
-## Tech stack
+### Prerequisites
+- Python 3.11+ (tested on 3.13)
+- Install dependencies: `pip install -r requirements.txt`
 
-- Language: Python 3.13
-- Game library: Pygame
-- Project layout: simple single-player local game with assets (images and sounds) in the `assets/` folder
+### Steps
+1. Clone or download the repository
+2. Run `python src/main.py`
+3. Select mode from the start menu (PvP or AI)
+4. Play chess!
 
-## How to load & play
+## Controls
 
-1. Install Python 3.11+ (this project was developed & tested on Python 3.13). Ensure `python` or the full executable path is available.
+- **Start Menu**: Click buttons or press P (PvP) / A (AI)
+- **Gameplay**: Click and drag pieces to move
+- **Themes**: Press T to cycle board themes
+- **Restart**: Press R to restart game
+- **Toggle AI**: Press A during game (if applicable)
 
-2. Install dependencies (recommended inside a virtual environment):
+## Tech Stack
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-```
+- **Language**: Python 3.13
+- **Library**: Pygame for graphics and input
+- **AI**: Minimax algorithm with alpha-beta pruning
+- **Assets**: Images and sounds in `assets/` folder
 
-If you don't use a virtual environment, you can simply run:
+## Future Plans
 
-```powershell
-python -m pip install -r requirements.txt
-```
+- Web version for online play (HTML/JS)
+- Improved AI with deeper search
+- More themes and customization
 
-3. Run the game from the project root:
+## Contributing
 
-```powershell
-python src\main.py
-```
-
-4. Controls while playing:
-- Click and drag pieces to move them.
-- Press `t` to cycle the board theme (green, brown, blue, gray).
-- Press `r` to restart the game.
-
-Notes:
-- The `assets/images/` folder contains piece images used by the UI and `assets/sounds/` contains move/capture sounds.
-- If the game fails to start with an import error for `pygame`, install it with `python -m pip install pygame` (or re-run step 2).
+Feel free to open issues or PRs on GitHub!
 
