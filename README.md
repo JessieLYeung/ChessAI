@@ -37,12 +37,6 @@ A simple chess game built with Python and Pygame, featuring AI opponent using Mi
 - **AI**: Minimax algorithm with alpha-beta pruning
 - **Assets**: Images and sounds in `assets/` folder
 
-## Future Plans
-
-- Web version for online play (HTML/JS)
-- Improved AI with deeper search
-- More themes and customization
-
 ## Contributing
 
 Feel free to open issues or PRs on GitHub!
