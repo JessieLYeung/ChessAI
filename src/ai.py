@@ -128,10 +128,10 @@ def get_all_moves(board, color):
 
 def minimax(board, depth, alpha, beta, maximizing_player, color):
     """
-    Minimax algorithm with alpha-beta pruning and quiescence.
+    Minimax algorithm with alpha-beta pruning.
     """
     if depth == 0:
-        return quiescence(board, alpha, beta, color), None
+        return evaluate_board(board, color), None
 
     if maximizing_player:
         max_eval = -float('inf')
@@ -168,34 +168,7 @@ def minimax(board, depth, alpha, beta, maximizing_player, color):
                 break
         return min_eval, None
 
-def quiescence(board, alpha, beta, color, depth=0):
-    """
-    Quiescence search: evaluate until no captures or checks, with max depth.
-    """
-    if depth > 3:  # Limit quiescence depth
-        return evaluate_board(board, color)
-    
-    stand_pat = evaluate_board(board, color)
-    if stand_pat >= beta:
-        return beta
-    if alpha < stand_pat:
-        alpha = stand_pat
-
-    moves = get_all_moves(board, color)
-    # Only consider captures
-    capture_moves = [m for m in moves if board.squares[m.final.row][m.final.col].has_piece()]
-    for move in capture_moves:
-        temp_board = copy.deepcopy(board)
-        temp_piece = temp_board.squares[move.initial.row][move.initial.col].piece
-        temp_board.move(temp_piece, move, testing=True)
-        score = -quiescence(temp_board, -beta, -alpha, 'white' if color == 'black' else 'black', depth + 1)
-        if score >= beta:
-            return beta
-        if score > alpha:
-            alpha = score
-    return alpha
-
-def get_best_move(board, color, depth=3):
+def get_best_move(board, color, depth=2):
     """
     Get the best move for the given color using Minimax.
     """
