@@ -1,11 +1,19 @@
 # Game Instructions
 
-* Working on AI gamemode...
+* Working on AI gamemode...*
 
 - Entry point: main.py
 - Press 't' to change theme (green, brown, blue, gray)
 - Press 'r' to restart the game
 - Press 'a' to toggle AI mode (AI plays as black)
+
+## How to start
+
+1. Run `python src/main.py`
+2. Choose mode:
+   - Click "PvP" button for Player vs Player
+   - Click "AI Mode" button for Player vs AI (you play white, AI plays black)
+   - Or press P for PvP, A for AI
 
 ## Tech stack
 
@@ -40,8 +48,7 @@ python src\main.py
 4. Controls while playing:
 - Click and drag pieces to move them.
 - Press `t` to cycle the board theme (green, brown, blue, gray).
-- Press `r` to restart the current game.
-- Press `a` to toggle AI mode (AI plays as black).
+- Press `r` to restart the game.
 
 Notes:
 - The `assets/images/` folder contains piece images used by the UI and `assets/sounds/` contains move/capture sounds.
