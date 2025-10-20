@@ -168,10 +168,13 @@ def minimax(board, depth, alpha, beta, maximizing_player, color):
                 break
         return min_eval, None
 
-def quiescence(board, alpha, beta, color):
+def quiescence(board, alpha, beta, color, depth=0):
     """
-    Quiescence search: evaluate until no captures or checks.
+    Quiescence search: evaluate until no captures or checks, with max depth.
     """
+    if depth > 3:  # Limit quiescence depth
+        return evaluate_board(board, color)
+    
     stand_pat = evaluate_board(board, color)
     if stand_pat >= beta:
         return beta
@@ -185,14 +188,14 @@ def quiescence(board, alpha, beta, color):
         temp_board = copy.deepcopy(board)
         temp_piece = temp_board.squares[move.initial.row][move.initial.col].piece
         temp_board.move(temp_piece, move, testing=True)
-        score = -quiescence(temp_board, -beta, -alpha, 'white' if color == 'black' else 'black')
+        score = -quiescence(temp_board, -beta, -alpha, 'white' if color == 'black' else 'black', depth + 1)
         if score >= beta:
             return beta
         if score > alpha:
             alpha = score
     return alpha
 
-def get_best_move(board, color, depth=4):
+def get_best_move(board, color, depth=3):
     """
     Get the best move for the given color using Minimax.
     """
