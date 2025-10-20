@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChessBot - Web Edition</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>ChessBot</h1>
+    <div id="board"></div>
+    <div id="controls">
+        <button id="pvpBtn">Player vs Player</button>
+        <button id="aiBtn">Player vs AI</button>
+        <button id="resetBtn">Reset Game</button>
+        <p id="status">Choose mode to start</p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.min.js"></script>
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+    <script src="chessboard.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
