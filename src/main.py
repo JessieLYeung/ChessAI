@@ -129,6 +129,7 @@ class Main:
                     pygame.quit()
                     sys.exit()
             
+            pygame.display.set_caption(f'Chess - AI Mode: {"ON" if game.ai_mode else "OFF"}')
             pygame.display.update()
 
 

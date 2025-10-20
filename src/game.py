@@ -127,10 +127,13 @@ class Game:
 
     def toggle_ai_mode(self):
         self.ai_mode = not self.ai_mode
+        print(f"AI mode: {self.ai_mode}")
 
     def make_ai_move(self):
         if self.ai_mode and self.next_player == 'black':  # Assuming AI plays black
-            best_move = get_best_move(self.board, self.next_player, depth=3)
+            print("AI is thinking...")
+            best_move = get_best_move(self.board, self.next_player, depth=2)
+            print(f"Best move: {best_move}")
             if best_move:
                 piece = self.board.squares[best_move.initial.row][best_move.initial.col].piece
                 captured = self.board.squares[best_move.final.row][best_move.final.col].has_piece()
