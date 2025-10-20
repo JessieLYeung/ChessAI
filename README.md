@@ -5,9 +5,7 @@
 - Entry point: main.py
 - Press 't' to change theme (green, brown, blue, gray)
 - Press 'r' to restart the game
- - Entry point: main.py
- - Press 't' to change theme (green, brown, blue, gray)
- - Press 'r' to restart the game
+- Press 'a' to toggle AI mode (AI plays as black)
 
 ## Tech stack
 
@@ -43,6 +41,7 @@ python src\main.py
 - Click and drag pieces to move them.
 - Press `t` to cycle the board theme (green, brown, blue, gray).
 - Press `r` to restart the current game.
+- Press `a` to toggle AI mode (AI plays as black).
 
 Notes:
 - The `assets/images/` folder contains piece images used by the UI and `assets/sounds/` contains move/capture sounds.

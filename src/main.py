@@ -102,6 +102,7 @@ class Main:
                             game.show_pieces(screen)
                             # next turn
                             game.next_turn()
+                            game.make_ai_move()
                     
                     dragger.undrag_piece()
                 
@@ -111,6 +112,10 @@ class Main:
                     # changing themes
                     if event.key == pygame.K_t:
                         game.change_theme()
+
+                    # toggle AI mode
+                    if event.key == pygame.K_a:
+                        game.toggle_ai_mode()
 
                      # changing themes
                     if event.key == pygame.K_r:
