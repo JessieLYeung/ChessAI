@@ -99,6 +99,7 @@ class Board:
         '''
             Calculate all the possible (valid) moves of an specific piece on a specific position
         '''
+        piece.clear_moves()
         
         def pawn_moves():
             # steps

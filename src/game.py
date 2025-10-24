@@ -143,8 +143,13 @@ class Game:
             print(f"Best move: {best_move}")
             if best_move:
                 piece = self.board.squares[best_move.initial.row][best_move.initial.col].piece
-                captured = self.board.squares[best_move.final.row][best_move.final.col].has_piece()
-                self.board.move(piece, best_move)
-                self.board.set_true_en_passant(piece)
-                self.play_sound(captured)
-                self.next_turn()
+                # Validate the move before executing (same as human players)
+                if self.board.valid_move(piece, best_move):
+                    captured = self.board.squares[best_move.final.row][best_move.final.col].has_piece()
+                    self.board.move(piece, best_move)
+                    self.board.set_true_en_passant(piece)
+                    self.play_sound(captured)
+                    self.next_turn()
+                else:
+                    print(f"AI tried to make invalid move: {best_move}")
+                    # Skip turn or handle error
