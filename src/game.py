@@ -61,10 +61,17 @@ class Game:
                     # all pieces except dragger piece
                     if piece is not self.dragger.piece:
                         piece.set_texture(size=80)
-                        img = pygame.image.load(piece.texture)
-                        img_center = col * SQSIZE + SQSIZE // 2, row * SQSIZE + SQSIZE // 2
-                        piece.texture_rect = img.get_rect(center=img_center)
-                        surface.blit(img, piece.texture_rect)
+                        try:
+                            img = pygame.image.load(piece.texture)
+                            img_center = col * SQSIZE + SQSIZE // 2, row * SQSIZE + SQSIZE // 2
+                            piece.texture_rect = img.get_rect(center=img_center)
+                            surface.blit(img, piece.texture_rect)
+                        except pygame.error:
+                            print(f"Warning: Could not load piece image {piece.texture}")
+                            # Draw a placeholder rectangle instead
+                            color = (255, 0, 0) if piece.color == 'red' else (0, 0, 255)  # fallback colors
+                            rect = (col * SQSIZE, row * SQSIZE, SQSIZE, SQSIZE)
+                            pygame.draw.rect(surface, color, rect)
 
     def show_moves(self, surface):
         theme = self.config.theme

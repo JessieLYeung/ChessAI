@@ -19,12 +19,18 @@ class Dragger:
         self.piece.set_texture(size=128)
         texture = self.piece.texture
         # img
-        img = pygame.image.load(texture)
-        # rect
-        img_center = (self.mouseX, self.mouseY)
-        self.piece.texture_rect = img.get_rect(center=img_center)
-        # blit
-        surface.blit(img, self.piece.texture_rect)
+        try:
+            img = pygame.image.load(texture)
+            # rect
+            img_center = (self.mouseX, self.mouseY)
+            self.piece.texture_rect = img.get_rect(center=img_center)
+            # blit
+            surface.blit(img, self.piece.texture_rect)
+        except pygame.error:
+            print(f"Warning: Could not load dragged piece image {texture}")
+            # Draw a placeholder circle for dragged piece
+            color = (255, 0, 0) if self.piece.color == 'red' else (0, 0, 255)  # fallback colors
+            pygame.draw.circle(surface, color, (self.mouseX, self.mouseY), 30)
 
     # other methods
 
