@@ -34,6 +34,37 @@ class Main:
         ai_text = font.render('AI Mode', True, (0, 0, 0))
         surface.blit(ai_text, (self.ai_button.centerx - ai_text.get_width() // 2, self.ai_button.centery - ai_text.get_height() // 2))
 
+    def show_game_over(self, surface):
+        # Semi-transparent overlay
+        overlay = pygame.Surface((WIDTH, HEIGHT))
+        overlay.set_alpha(128)
+        overlay.fill((0, 0, 0))
+        surface.blit(overlay, (0, 0))
+        
+        font = pygame.font.SysFont('monospace', 48, bold=True)
+        small_font = pygame.font.SysFont('monospace', 24)
+        
+        if self.game.winner == 'draw':
+            text = font.render('STALEMATE', True, (255, 255, 255))
+            subtext = small_font.render('It\'s a draw!', True, (200, 200, 200))
+        else:
+            winner_text = f'{self.game.winner.upper()} WINS!'
+            text = font.render(winner_text, True, (255, 255, 255))
+            subtext = small_font.render('Checkmate!', True, (200, 200, 200))
+        
+        # Center the text
+        text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 20))
+        subtext_rect = subtext.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 30))
+        
+        surface.blit(text, text_rect)
+        surface.blit(subtext, subtext_rect)
+        
+        # Show restart instruction
+        restart_font = pygame.font.SysFont('monospace', 18)
+        restart_text = restart_font.render('Press R to restart or ESC for menu', True, (150, 150, 150))
+        restart_rect = restart_text.get_rect(center=(WIDTH // 2, HEIGHT - 50))
+        surface.blit(restart_text, restart_rect)
+
     def mainloop(self):
         
         screen = self.screen
@@ -71,13 +102,17 @@ class Main:
                 game.show_pieces(screen)
                 game.show_hover(screen)
 
+                # Show game over message if game is over
+                if game.game_over:
+                    self.show_game_over(screen)
+
                 if dragger.dragging:
                     dragger.update_blit(screen)
 
                 for event in pygame.event.get():
 
                     # click
-                    if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.type == pygame.MOUSEBUTTONDOWN and not game.game_over:
                         dragger.update_mouse(event.pos)
 
                         clicked_row = dragger.mouseY // SQSIZE
@@ -160,9 +195,16 @@ class Main:
                         if event.key == pygame.K_a:
                             game.toggle_ai_mode()
 
-                         # changing themes
+                        # restart game
                         if event.key == pygame.K_r:
                             game.reset()
+                            self.ai_timer = 0
+                        
+                        # back to menu
+                        if event.key == pygame.K_ESCAPE:
+                            self.state = 'menu'
+                            game.reset()
+                            self.ai_timer = 0
                             game = self.game
                             board = self.game.board
                             dragger = self.game.dragger
@@ -172,7 +214,7 @@ class Main:
                         pygame.quit()
                         sys.exit()
             
-            if self.ai_timer and pygame.time.get_ticks() > self.ai_timer:
+            if self.ai_timer and pygame.time.get_ticks() > self.ai_timer and not game.game_over:
                 self.ai_timer = 0
                 game.make_ai_move()
             

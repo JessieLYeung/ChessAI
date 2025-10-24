@@ -95,6 +95,60 @@ class Board:
         
         return False
 
+    def is_in_check(self, color):
+        """
+        Check if the king of the given color is in check.
+        """
+        king_square = None
+        for row in range(ROWS):
+            for col in range(COLS):
+                piece = self.squares[row][col].piece
+                if isinstance(piece, King) and piece.color == color:
+                    king_square = (row, col)
+                    break
+            if king_square:
+                break
+        
+        if not king_square:
+            return False  # Should not happen
+        
+        # Check if any enemy piece can attack the king
+        enemy_color = 'white' if color == 'black' else 'black'
+        for row in range(ROWS):
+            for col in range(COLS):
+                piece = self.squares[row][col].piece
+                if piece and piece.color == enemy_color:
+                    self.calc_moves(piece, row, col, bool=False)
+                    for move in piece.moves:
+                        if move.final.row == king_square[0] and move.final.col == king_square[1]:
+                            return True
+        return False
+
+    def has_legal_moves(self, color):
+        """
+        Check if the given color has any legal moves.
+        """
+        moves = []
+        for row in range(ROWS):
+            for col in range(COLS):
+                if self.squares[row][col].has_piece() and self.squares[row][col].piece.color == color:
+                    piece = self.squares[row][col].piece
+                    self.calc_moves(piece, row, col, bool=True)
+                    moves.extend(piece.moves)
+        return len(moves) > 0
+
+    def is_checkmate(self, color):
+        """
+        Check if the given color is in checkmate.
+        """
+        return self.is_in_check(color) and not self.has_legal_moves(color)
+
+    def is_stalemate(self, color):
+        """
+        Check if the given color is in stalemate.
+        """
+        return not self.is_in_check(color) and not self.has_legal_moves(color)
+
     def calc_moves(self, piece, row, col, bool=True):
         '''
             Calculate all the possible (valid) moves of an specific piece on a specific position

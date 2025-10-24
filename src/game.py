@@ -16,6 +16,8 @@ class Game:
         self.dragger = Dragger()
         self.config = Config()
         self.ai_mode = False  # Add AI mode flag
+        self.game_over = False
+        self.winner = None  # 'white', 'black', or 'draw'
 
     # blit methods
 
@@ -116,6 +118,17 @@ class Game:
 
     def next_turn(self):
         self.next_player = 'white' if self.next_player == 'black' else 'black'
+        
+        # Check for game end conditions
+        opponent = 'white' if self.next_player == 'black' else 'black'
+        if self.board.is_checkmate(self.next_player):
+            self.game_over = True
+            self.winner = opponent  # The player who just moved won
+            print(f"Checkmate! {opponent.capitalize()} wins!")
+        elif self.board.is_stalemate(self.next_player):
+            self.game_over = True
+            self.winner = 'draw'
+            print("Stalemate! It's a draw!")
 
     def set_hover(self, row, col):
         self.hovered_sqr = self.board.squares[row][col]
@@ -137,7 +150,7 @@ class Game:
         print(f"AI mode: {self.ai_mode}")
 
     def make_ai_move(self):
-        if self.ai_mode and self.next_player == 'black':  # Assuming AI plays black
+        if self.ai_mode and self.next_player == 'black' and not self.game_over:  # Assuming AI plays black
             print("AI is thinking...")
             best_move = get_best_move(self.board, self.next_player, depth=2)
             print(f"Best move: {best_move}")
@@ -153,3 +166,7 @@ class Game:
                 else:
                     print(f"AI tried to make invalid move: {best_move}")
                     # Skip turn or handle error
+            else:
+                # No moves available - this should trigger checkmate/stalemate detection
+                print("AI has no legal moves")
+                self.next_turn()  # This will check for game end conditions
