@@ -7,15 +7,19 @@ from theme import Theme
 class Config:
 
     def __init__(self):
+        pygame.mixer.init()  # Ensure mixer is initialized
         self.themes = []
         self._add_themes()
         self.idx = 0
         self.theme = self.themes[self.idx]
         self.font = pygame.font.SysFont('monospace', 18, bold=True)
+        
+        # Use absolute paths based on this file's location
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.move_sound = Sound(
-            os.path.join('assets/sounds/move.wav'))
+            os.path.join(base_dir, 'assets', 'sounds', 'move.wav'))
         self.capture_sound = Sound(
-            os.path.join('assets/sounds/capture.wav'))
+            os.path.join(base_dir, 'assets', 'sounds', 'capture.wav'))
 
     def change_theme(self):
         self.idx += 1

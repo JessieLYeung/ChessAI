@@ -127,6 +127,6 @@ ehthumbs.db
 Icon?
 
 # Sound and images built or downloaded
-assets/sounds/*.wav
+# assets/sounds/*.wav  # Commented out - we want to track sound files
 src/__pycache__/
 assets/images/.DS_Store
