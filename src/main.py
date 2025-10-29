@@ -235,5 +235,6 @@ class Main:
             pygame.display.update()
 
 
-main = Main()
-main.mainloop()
+if __name__ == '__main__':
+    main = Main()
+    main.mainloop()
