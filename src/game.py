@@ -174,3 +174,11 @@ class Game:
                 # No moves available - this should trigger checkmate/stalemate detection
                 print("AI has no legal moves")
                 self.next_turn()  # This will check for game end conditions
+        else:
+            # Debug why AI isn't moving
+            if not self.ai_mode:
+                print(f"DEBUG: AI not moving - ai_mode is False")
+            elif self.next_player != 'black':
+                print(f"DEBUG: AI not moving - next_player is {self.next_player}, not black")
+            elif self.game_over:
+                print(f"DEBUG: AI not moving - game is over")

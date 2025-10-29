@@ -226,7 +226,8 @@ class Main:
                         pygame.quit()
                         sys.exit()
             
-            if self.ai_timer and pygame.time.get_ticks() > self.ai_timer and not game.game_over:
+            # AI move execution (check outside event loop)
+            if self.ai_timer > 0 and pygame.time.get_ticks() > self.ai_timer and not game.game_over:
                 self.ai_timer = 0
                 game.make_ai_move()
             
