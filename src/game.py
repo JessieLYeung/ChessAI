@@ -131,7 +131,11 @@ class Game:
             print("Stalemate! It's a draw!")
 
     def set_hover(self, row, col):
-        self.hovered_sqr = self.board.squares[row][col]
+        # Check if row and col are within valid range
+        if 0 <= row < 8 and 0 <= col < 8:
+            self.hovered_sqr = self.board.squares[row][col]
+        else:
+            self.hovered_sqr = None
 
     def change_theme(self):
         self.config.change_theme()
