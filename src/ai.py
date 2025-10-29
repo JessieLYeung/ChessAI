@@ -1,5 +1,6 @@
 import copy
 import random
+from multiprocessing import Pool, cpu_count
 from board import Board
 from move import Move
 from square import Square
@@ -222,9 +223,54 @@ def minimax(board, depth, alpha, beta, maximizing_player, color):
                 break
         return min_eval, None
 
-def get_best_move(board, color, depth=2):
+def evaluate_move_parallel(args):
+    """
+    Helper function for parallel move evaluation.
+    Must be at module level for multiprocessing.
+    """
+    board, move, color, depth = args
+    temp_board = copy.deepcopy(board)
+    temp_piece = temp_board.squares[move.initial.row][move.initial.col].piece
+    temp_board.move(temp_piece, move, testing=True)
+    eval_score, _ = minimax(temp_board, depth - 1, -float('inf'), float('inf'), False, color)
+    return (move, eval_score)
+
+def get_best_move(board, color, depth=2, use_parallel=True):
     """
     Get the best move for the given color using Minimax.
+    Uses multiprocessing for parallel evaluation when use_parallel=True.
     """
-    _, best_move = minimax(board, depth, -float('inf'), float('inf'), True, color)
-    return best_move
+    moves = get_all_moves(board, color)
+    
+    if not moves:
+        return None
+    
+    # For small number of moves or depth 1, single-threaded is faster
+    if len(moves) <= 4 or depth <= 1 or not use_parallel:
+        _, best_move = minimax(board, depth, -float('inf'), float('inf'), True, color)
+        return best_move
+    
+    # Parallel evaluation for root level moves
+    # Sort moves: captures first
+    moves.sort(key=lambda m: 1 if board.squares[m.final.row][m.final.col].has_piece() else 0, reverse=True)
+    
+    # Prepare arguments for parallel processing
+    args_list = [(board, move, color, depth) for move in moves]
+    
+    try:
+        # Use number of available CPU cores
+        num_processes = min(cpu_count(), len(moves))
+        with Pool(processes=num_processes) as pool:
+            results = pool.map(evaluate_move_parallel, args_list)
+        
+        # Find best move(s) from results
+        best_score = max(results, key=lambda x: x[1])[1]
+        best_moves = [move for move, score in results if score == best_score]
+        
+        # Randomly choose among equally good moves
+        return random.choice(best_moves) if best_moves else None
+    except Exception as e:
+        # Fallback to single-threaded if multiprocessing fails
+        print(f"Parallel processing failed: {e}. Using single-threaded mode.")
+        _, best_move = minimax(board, depth, -float('inf'), float('inf'), True, color)
+        return best_move
