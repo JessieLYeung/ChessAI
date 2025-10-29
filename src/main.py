@@ -194,7 +194,11 @@ class Main:
                             # restart game
                             if event.key == pygame.K_r:
                                 game.reset()
-                                self.ai_timer = 0
+                                # Check if AI should move first after reset
+                                if game.ai_mode and game.next_player == 'black':
+                                    self.ai_timer = pygame.time.get_ticks() + 500
+                                else:
+                                    self.ai_timer = 0
                             # back to menu
                             elif event.key == pygame.K_ESCAPE:
                                 self.state = 'menu'
@@ -213,7 +217,11 @@ class Main:
                             # restart game
                             if event.key == pygame.K_r:
                                 game.reset()
-                                self.ai_timer = 0
+                                # Check if AI should move first after reset
+                                if game.ai_mode and game.next_player == 'black':
+                                    self.ai_timer = pygame.time.get_ticks() + 500
+                                else:
+                                    self.ai_timer = 0
                             
                             # back to menu
                             if event.key == pygame.K_ESCAPE:
