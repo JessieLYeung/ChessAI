@@ -68,11 +68,13 @@ class Main:
     def mainloop(self):
         
         screen = self.screen
-        game = self.game
-        board = self.game.board
-        dragger = self.game.dragger
 
         while True:
+            # Always reference current game state
+            game = self.game
+            board = self.game.board
+            dragger = self.game.dragger
+            
             if self.state == 'menu':
                 self.show_menu(screen)
                 for event in pygame.event.get():
@@ -187,27 +189,37 @@ class Main:
                     # key press
                     elif event.type == pygame.KEYDOWN:
                         
-                        # changing themes
-                        if event.key == pygame.K_t:
-                            game.change_theme()
+                        # Handle game over state first
+                        if game.game_over:
+                            # restart game
+                            if event.key == pygame.K_r:
+                                game.reset()
+                                self.ai_timer = 0
+                            # back to menu
+                            elif event.key == pygame.K_ESCAPE:
+                                self.state = 'menu'
+                                game.reset()
+                                self.ai_timer = 0
+                        else:
+                            # Normal game controls when game is not over
+                            # changing themes
+                            if event.key == pygame.K_t:
+                                game.change_theme()
 
-                        # toggle AI mode
-                        if event.key == pygame.K_a:
-                            game.toggle_ai_mode()
+                            # toggle AI mode
+                            if event.key == pygame.K_a:
+                                game.toggle_ai_mode()
 
-                        # restart game
-                        if event.key == pygame.K_r:
-                            game.reset()
-                            self.ai_timer = 0
-                        
-                        # back to menu
-                        if event.key == pygame.K_ESCAPE:
-                            self.state = 'menu'
-                            game.reset()
-                            self.ai_timer = 0
-                            game = self.game
-                            board = self.game.board
-                            dragger = self.game.dragger
+                            # restart game
+                            if event.key == pygame.K_r:
+                                game.reset()
+                                self.ai_timer = 0
+                            
+                            # back to menu
+                            if event.key == pygame.K_ESCAPE:
+                                self.state = 'menu'
+                                game.reset()
+                                self.ai_timer = 0
 
                     # quit application
                     elif event.type == pygame.QUIT:
