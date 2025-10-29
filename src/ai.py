@@ -97,6 +97,9 @@ def evaluate_board(board, color):
     Positive score means advantage for the color.
     """
     score = 0
+    opponent_color = 'white' if color == 'black' else 'black'
+    
+    # Material and position evaluation
     for row in range(8):
         for col in range(8):
             piece = board.squares[row][col].piece
@@ -112,6 +115,51 @@ def evaluate_board(board, color):
                     score += total_value
                 else:
                     score -= total_value
+    
+    # Build attack maps for both colors
+    our_attacks = set()
+    opponent_attacks = set()
+    
+    for row in range(8):
+        for col in range(8):
+            piece = board.squares[row][col].piece
+            if piece:
+                board.calc_moves(piece, row, col, bool=False)
+                for move in piece.moves:
+                    target = (move.final.row, move.final.col)
+                    if piece.color == color:
+                        our_attacks.add(target)
+                    else:
+                        opponent_attacks.add(target)
+    
+    # Evaluate hanging pieces and threats
+    for row in range(8):
+        for col in range(8):
+            piece = board.squares[row][col].piece
+            if piece:
+                square = (row, col)
+                piece_value = PIECE_VALUES[piece.name.lower()]
+                
+                if piece.color == color:
+                    # Our piece
+                    if square in opponent_attacks:
+                        if square not in our_attacks:
+                            # Hanging piece - major penalty
+                            score -= piece_value * 0.9
+                        else:
+                            # Attacked but defended - smaller penalty based on value
+                            score -= piece_value * 0.1
+                else:
+                    # Opponent's piece
+                    if square in our_attacks:
+                        if square not in opponent_attacks:
+                            # Opponent's hanging piece - bonus
+                            score += piece_value * 0.9
+    
+    # Mobility bonus (lighter weight to avoid slowing down)
+    score += len(our_attacks) * 10
+    score -= len(opponent_attacks) * 10
+    
     return score
 
 def get_all_moves(board, color):
