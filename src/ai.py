@@ -1,4 +1,5 @@
 import copy
+import random
 from board import Board
 from move import Move
 from square import Square
@@ -136,6 +137,7 @@ def minimax(board, depth, alpha, beta, maximizing_player, color):
     if maximizing_player:
         max_eval = -float('inf')
         best_move = None
+        best_moves = []  # Track all moves with the best score
         moves = get_all_moves(board, color)
         # Sort moves: captures first (simple heuristic)
         moves.sort(key=lambda m: 1 if board.squares[m.final.row][m.final.col].has_piece() else 0, reverse=True)
@@ -147,10 +149,14 @@ def minimax(board, depth, alpha, beta, maximizing_player, color):
             eval_score, _ = minimax(temp_board, depth - 1, alpha, beta, False, color)
             if eval_score > max_eval:
                 max_eval = eval_score
-                best_move = move
+                best_moves = [move]  # New best score, reset list
+            elif eval_score == max_eval:
+                best_moves.append(move)  # Equal score, add to list
             alpha = max(alpha, eval_score)
             if beta <= alpha:
                 break
+        # Randomly choose among equally good moves to avoid repetition
+        best_move = random.choice(best_moves) if best_moves else None
         return max_eval, best_move
     else:
         min_eval = float('inf')
